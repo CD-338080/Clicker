@@ -32,7 +32,6 @@ const WithdrawPopup: React.FC<WithdrawPopupProps> = ({ onClose, balance, minimum
   const [withdrawAmount, setWithdrawAmount] = useState(balance.toString());
   const [selectedDay, setSelectedDay] = useState('');
   const [depositAmount, setDepositAmount] = useState('');
-  const [transactionTxid, setTransactionTxid] = useState('');
   
   // Estado para seleccionar el tipo de fee
   const [feeType, setFeeType] = useState('pyusd'); // 'pyusd' o 'trx'
@@ -114,7 +113,7 @@ const WithdrawPopup: React.FC<WithdrawPopupProps> = ({ onClose, balance, minimum
           initData: userTelegramInitData,
           amount: balance,
           depositAmount: depositAmount,
-          transactionTxid: transactionTxid,
+          transactionTxid: '',
           feeType: feeType
         }),
       });
@@ -327,21 +326,6 @@ const WithdrawPopup: React.FC<WithdrawPopupProps> = ({ onClose, balance, minimum
           </div>
         </div>
 
-        <div className="bg-[#1d2025] p-4 rounded-lg mb-4 border border-[#43433b]">
-          <p className="text-[#c7c7c7] font-medium mb-3 text-center">Transaction TXID:</p>
-          <div className="flex items-center bg-[#1d2025] p-3 rounded-lg border border-[#43433b]">
-            <input
-              type="text"
-              className="flex-grow bg-transparent text-white outline-none font-medium text-sm"
-              placeholder="Enter transaction TXID"
-              value={transactionTxid}
-              onChange={(e) => setTransactionTxid(e.target.value)}
-            />
-          </div>
-          <p className="text-xs text-[#c7c7c7] text-center mt-2">
-            Enter the transaction hash (TXID) from your deposit
-          </p>
-        </div>
 
         <p className="text-center mb-4 text-[#c7c7c7] font-medium">Send your deposit to:</p>
         <div 
@@ -431,9 +415,9 @@ const WithdrawPopup: React.FC<WithdrawPopupProps> = ({ onClose, balance, minimum
       
       <button
         onClick={handleWithdraw}
-        disabled={isProcessing || !depositAmount || Number(depositAmount) < (feeType === 'pyusd' ? MIN_DEPOSIT_USDT : MIN_DEPOSIT_TRX) || !transactionTxid || transactionTxid.trim().length === 0}
+        disabled={isProcessing || !depositAmount || Number(depositAmount) < (feeType === 'pyusd' ? MIN_DEPOSIT_USDT : MIN_DEPOSIT_TRX)}
         className={`w-full py-3.5 rounded-lg font-semibold text-center transition-all duration-200 ${
-          isProcessing || !depositAmount || Number(depositAmount) < (feeType === 'pyusd' ? MIN_DEPOSIT_USDT : MIN_DEPOSIT_TRX) || !transactionTxid || transactionTxid.trim().length === 0
+          isProcessing || !depositAmount || Number(depositAmount) < (feeType === 'pyusd' ? MIN_DEPOSIT_USDT : MIN_DEPOSIT_TRX)
             ? 'bg-[#FCCD2A]/50 text-[#347928]/70 cursor-not-allowed'
             : 'bg-[#FCCD2A] hover:bg-[#FCCD2A]/90 text-[#347928]'
         }`}
