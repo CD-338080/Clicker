@@ -14,7 +14,7 @@
  */
 
 import { getTransactionById, updateTransactionStatus } from './mining-plan-transactions';
-import { prisma } from './prisma';
+import prisma from './prisma';
 
 interface ProcessTransactionResult {
   success: boolean;
