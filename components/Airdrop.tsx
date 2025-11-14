@@ -63,7 +63,7 @@ export default function Airdrop() {
     const [isWithdrawing, setIsWithdrawing] = useState(false);
     const [showWithdrawPopup, setShowWithdrawPopup] = useState(false);
 
-    const MINIMUM_WITHDRAW = 150;
+    const MINIMUM_WITHDRAW = 99;
     const USDT_CONTRACT = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
 
     const transactionsRef = useRef<HTMLDivElement>(null);
