@@ -25,6 +25,16 @@ import { useToast } from '@/contexts/ToastContext';
 const MINING_PLANS = [15, 25, 50, 100, 250, 500];
 const USDT_DEPOSIT_ADDRESS = 'TUUSCpDpQdNjAe55q4WNX322VHoA8wbCfN';
 
+// Mapeo de planes a valores de retorno
+const PLAN_REWARDS: Record<number, number> = {
+    15: 16.50,
+    25: 27.50,
+    50: 55,
+    100: 110,
+    250: 275,
+    500: 550,
+};
+
 interface MineProps {
     setCurrentView: (view: string) => void;
 }
@@ -97,7 +107,7 @@ export default function Mine({ setCurrentView }: MineProps) {
                     }
                     
                     // Mostrar notificación si es un aumento significativo (probablemente de mining plan)
-                    if (pointsAdded >= 30) { // 30 es el mínimo de los planes (15 * 2)
+                    if (pointsAdded >= 16.50) { // 16.50 es el mínimo de los planes
                         showToast(`✅ ${pointsAdded} USDT added to your account!`, 'success');
                     }
                 } else if (serverBalance !== currentBalance) {
@@ -212,12 +222,12 @@ export default function Mine({ setCurrentView }: MineProps) {
                                 </div>
 
                                 <p className="text-center text-sm text-gray-400 mb-4">
-                                    Get double the usdt! Pay USDT and receive 2x USDT instantly after admin confirmation.
+                                    Pay USDT and receive bonus USDT instantly after admin confirmation.
                                 </p>
 
                                 <div className="grid grid-cols-2 gap-3 mt-4">
                                     {MINING_PLANS.map((planAmount) => {
-                                        const pointsToReceive = planAmount * 2;
+                                        const pointsToReceive = PLAN_REWARDS[planAmount] || planAmount;
                                         const isPurchasing = purchasingPlan === planAmount;
                                         return (
                                             <button
@@ -307,7 +317,7 @@ export default function Mine({ setCurrentView }: MineProps) {
                                             <div className="flex justify-between items-center mb-2">
                                                 <span className="text-gray-400">You will receive:</span>
                                                 <span className="text-green-400 font-bold text-lg">
-                                                    +{formatNumber(selectedPlan * 2)} USDT
+                                                    +{formatNumber(PLAN_REWARDS[selectedPlan] || selectedPlan)} USDT
                                                 </span>
                                             </div>
                                         </div>

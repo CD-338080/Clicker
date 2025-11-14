@@ -25,6 +25,16 @@ export interface MiningPlanTransaction {
   confirmedAt?: Date;
 }
 
+// Mapeo de planes a valores de retorno
+const PLAN_REWARDS: Record<number, number> = {
+  15: 16.50,
+  25: 27.50,
+  50: 55,
+  100: 110,
+  250: 275,
+  500: 550,
+};
+
 // In-memory storage for transactions
 // In production, this should be stored in a database
 const transactions: Map<string, MiningPlanTransaction> = new Map();
@@ -39,7 +49,7 @@ export function createMiningPlanTransaction(
   transactionHash?: string
 ): MiningPlanTransaction {
   const transactionId = `tx_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-  const pointsToReceive = planAmount * 2; // Double the amount paid
+  const pointsToReceive = PLAN_REWARDS[planAmount] || planAmount;
 
   const transaction: MiningPlanTransaction = {
     id: transactionId,
